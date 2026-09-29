@@ -68,6 +68,19 @@ class Command(BaseCommand):
         }
         self.stdout.write(self.style.SUCCESS(f"Demo data ready: {counts}"))
 
+        admin.refresh_from_db()
+
+        self.stdout.write(
+         self.style.WARNING(
+        f"ADMIN CHECK: email={admin.email}, "
+        f"role={admin.role}, "
+        f"is_staff={admin.is_staff}, "
+        f"is_superuser={admin.is_superuser}, "
+        f"is_active={admin.is_active}, "
+        f"is_admin={admin.is_admin}"
+    )
+)
+
     def _user(self, email, password, name, role, is_staff, is_superuser, permissions):
        user, created = User.objects.get_or_create(
         email=email,
