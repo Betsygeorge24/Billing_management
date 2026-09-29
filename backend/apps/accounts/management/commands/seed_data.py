@@ -27,7 +27,6 @@ class Command(BaseCommand):
     category_names = ("Sarees", "Shirts", "Trousers", "Kurtas", "Fabrics by meter", "Kids wear")
 
     def handle(self, *args, **options):
-        del args, options
         with transaction.atomic():
             admin = self._user("admin@pos.com", "Admin@123", "POS Administrator", User.Role.ADMIN, True, True, {})
             cashier = self._user("staff@pos.com", "Staff@123", "Primary Cashier", User.Role.STAFF, False, False, {
@@ -70,14 +69,38 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(f"Demo data ready: {counts}"))
 
     def _user(self, email, password, name, role, is_staff, is_superuser, permissions):
-        user, created = User.objects.get_or_create(email=email, defaults={
-            "name": name, "role": role, "is_staff": is_staff,
-            "is_superuser": is_superuser, "permissions": permissions,
-        })
-        if created:
-            user.set_password(password)
-            user.save(update_fields=["password"])
-        return user
+       user, created = User.objects.get_or_create(
+        email=email,
+        defaults={
+            "name": name,
+            "role": role,
+            "is_staff": is_staff,
+            "is_superuser": is_superuser,
+            "permissions": permissions,
+        },
+    )
+
+       user.name = name
+       user.role = role
+       user.is_staff = is_staff
+       user.is_superuser = is_superuser
+       user.permissions = permissions
+       user.is_active = True
+       user.set_password(password)
+  
+       user.save(
+        update_fields=[
+            "name",
+            "role",
+            "is_staff",
+            "is_superuser",
+            "permissions",
+            "is_active",
+            "password",
+        ]
+    )
+
+       return user
 
     def _sample_products(self, categories):
         catalog = [
