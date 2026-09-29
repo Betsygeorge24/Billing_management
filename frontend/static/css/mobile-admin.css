@@ -1,0 +1,95 @@
+.mobile-shell>.admin-navbar{display:none}
+.mobile-shell .phone-frame{min-height:100vh}
+.mobile-shell .mobile-tabs a{min-width:64px;min-height:44px}
+.mobile-shell .mobile-tabs a.active{color:var(--teal)}
+.mobile-section{margin-top:20px}
+.mobile-section-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.mobile-section-heading h2{font:800 14px var(--font-display);margin:0}
+.mobile-section-heading a{color:var(--teal);font-size:11px;font-weight:700;text-decoration:none}
+.mobile-subtitle{color:var(--muted);font-size:12px;margin:-13px 0 17px}
+.mobile-stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:9px}
+.mobile-stat-grid article{background:white;border:1px solid var(--line);border-radius:7px;padding:12px;min-width:0}
+.mobile-stat-grid span,.mobile-stat-grid strong{display:block}
+.mobile-stat-grid span{color:var(--muted);font-size:10px}
+.mobile-stat-grid strong{font:800 15px var(--font-display);margin-top:6px;overflow-wrap:anywhere}
+.mobile-bill-card{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;min-height:62px}
+.mobile-bill-icon{width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;border-radius:6px;background:#eaf3ef;color:var(--teal)}
+.mobile-bill-main{flex:1;min-width:0}
+.mobile-bill-main strong,.mobile-bill-main small,.mobile-bill-total small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mobile-bill-main strong{font-size:11px}
+.mobile-bill-main small,.mobile-bill-total small{font-size:9px;color:var(--muted);margin-top:4px}
+.mobile-bill-total{text-align:right;font-size:11px;font-weight:700;white-space:nowrap}
+.mobile-empty{padding:28px 12px;text-align:center;color:var(--muted);font-size:12px;background:white;border:1px solid var(--line);border-radius:7px}
+.mobile-bill-list{display:grid;gap:9px}
+.mobile-bill-record{background:white;border:1px solid var(--line);border-radius:7px;padding:13px}
+.mobile-bill-record-top,.mobile-bill-record-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mobile-bill-record-top>div{min-width:0}
+.mobile-bill-record-top strong,.mobile-bill-record-top small{display:block}
+.mobile-bill-record-top strong{font-size:12px}
+.mobile-bill-record-top small{color:var(--muted);font-size:10px;margin-top:4px}
+.mobile-status{flex:0 0 auto;color:var(--teal);background:#eaf3ef;border-radius:12px;padding:4px 8px;font-size:9px;font-weight:700}
+.mobile-bill-record-meta{display:flex;flex-wrap:wrap;gap:5px 12px;padding:10px 0;color:#697883;font-size:10px}
+.mobile-bill-record-meta i{color:var(--teal)}
+.mobile-bill-record-bottom{border-top:1px solid #edf0ef;padding-top:10px}
+.mobile-bill-record-bottom>div:first-child strong,.mobile-bill-record-bottom>div:first-child small{display:block}
+.mobile-bill-record-bottom>div:first-child strong{font:800 14px var(--font-display)}
+.mobile-bill-record-bottom>div:first-child small{color:var(--muted);font-size:9px;margin-top:2px}
+.mobile-payment-tags{display:flex;flex:1;flex-wrap:wrap;gap:3px}
+.mobile-payment-tags span{background:#f0f4f2;border-radius:9px;padding:3px 6px;color:#587168;font-size:9px}
+.mobile-bill-record-bottom .btn{min-height:36px;font-size:10px;padding:5px 8px}
+.mobile-pagination{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;margin:15px 0 6px;color:var(--muted);font-size:11px;text-align:center}
+.mobile-pagination a{min-height:40px;display:flex;align-items:center;gap:5px;color:var(--teal);text-decoration:none;font-weight:700}
+.mobile-pagination a:last-of-type{justify-content:flex-end}
+.mobile-more-list{background:white;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.mobile-more-list>a{min-height:64px;display:flex;align-items:center;gap:12px;padding:9px 13px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
+.mobile-more-list>a:last-child{border-bottom:0}
+.mobile-more-list>a>i:first-child{width:22px;color:var(--teal);font-size:17px;text-align:center}
+.mobile-more-list>a>i:last-child{margin-left:auto;color:#98a3ac;font-size:12px}
+.mobile-more-list span{min-width:0}
+.mobile-more-list strong,.mobile-more-list small{display:block}
+.mobile-more-list strong{font-size:12px}
+.mobile-more-list small{color:var(--muted);font-size:10px;margin-top:3px}
+.mobile-info{display:flex;gap:9px;margin-top:13px;padding:12px;background:#edf4f1;border-radius:6px;color:#60766f;font-size:10px;line-height:1.5}
+.mobile-info i{color:var(--teal);font-size:14px}
+.mobile-admin-actions{display:flex;flex-wrap:wrap;gap:7px;margin:-5px 0 12px}
+.mobile-admin-actions .btn{min-height:38px}
+.mobile-admin-search{display:grid;grid-template-columns:minmax(0,1fr) 42px;gap:7px;margin:10px 0 13px}
+.mobile-admin-search .btn{min-height:42px}
+.mobile-admin-search select,.mobile-admin-search input[type=date]{grid-column:span 1;min-width:0;font-size:12px}
+.mobile-admin-cards{display:grid;gap:8px}
+.mobile-admin-card{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;padding:12px;background:#fff;border:1px solid var(--line);border-radius:7px;color:var(--ink);text-decoration:none}
+.mobile-admin-card-copy{display:grid;gap:4px;min-width:0}
+.mobile-admin-card-copy strong{font-size:12px;overflow-wrap:anywhere}
+.mobile-admin-card-copy span{font-size:10px;color:var(--muted);overflow-wrap:anywhere}
+.mobile-admin-card>.btn{flex:0 0 auto;min-height:36px;font-size:10px}
+.mobile-admin-form{padding:14px;background:#fff;border:1px solid var(--line);border-radius:7px}
+.mobile-form-field{display:grid;gap:5px;margin-bottom:12px;min-width:0}
+.mobile-form-field>label{font-size:11px;font-weight:700;color:#455462}
+.mobile-form-field input:not([type=checkbox]),.mobile-form-field select,.mobile-form-field textarea{width:100%;min-height:42px;font-size:13px}
+.mobile-form-field small{font-size:10px;line-height:1.4;color:var(--muted)}
+.mobile-checkbox{grid-template-columns:20px 1fr;align-items:center;min-height:40px}
+.mobile-checkbox label{grid-column:2;margin:0}
+.mobile-checkbox input{grid-column:1;grid-row:1}
+.mobile-formset{margin-top:16px}
+.mobile-formset>h2{font:800 14px var(--font-display);margin:0 0 9px}
+.mobile-formset>p{font-size:10px;color:var(--muted)}
+.mobile-formset-card{margin:9px 0;padding:12px;border:1px solid var(--line);border-radius:7px;background:#fff}
+.mobile-formset-card legend{float:none;width:auto;padding:0 4px;font-size:10px;color:var(--muted);font-weight:700}
+.mobile-form-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.mobile-form-actions .btn{min-height:44px}
+.mobile-detail-actions{display:flex;gap:8px;margin:12px 0}
+.mobile-detail-actions .btn{min-height:40px;flex:1}
+.mobile-return-card{display:grid;gap:8px;margin:8px 0;padding:12px;background:#fff;border:1px solid var(--line);border-radius:7px}
+.mobile-return-card>strong{font-size:12px}
+.mobile-return-card>small{font-size:10px;color:var(--muted)}
+.mobile-return-controls{display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:10px}
+.mobile-return-controls>label:first-child{display:grid;gap:5px;color:var(--muted);font-size:10px}
+.mobile-danger{padding:12px;border:1px solid #efd7d4;border-radius:7px;background:#fff}
+.mobile-danger>p{font-size:10px;color:var(--muted)}
+.mobile-report-tabs{display:flex;gap:5px;overflow-x:auto;margin:0 -18px 12px;padding:0 18px 7px;scrollbar-width:thin}
+.mobile-report-tabs a{flex:0 0 auto;padding:8px 10px;background:#fff;border:1px solid var(--line);border-radius:15px;color:#61717b;text-decoration:none;font-size:10px;font-weight:700}
+.mobile-report-tabs a.active{background:#eaf3ef;border-color:#cde2d9;color:var(--teal)}
+.mobile-shell .mobile-formset .mobile-admin-card{margin:6px 0}
+.mobile-shell .mobile-formset .mobile-admin-card>i{color:var(--muted)}
+@media(max-width:460px){.mobile-shell{padding:0}.mobile-shell .phone-frame{border:0;border-radius:0;box-shadow:none}.mobile-shell .mobile-topbar{padding-top:env(safe-area-inset-top);height:calc(62px + env(safe-area-inset-top))}.mobile-shell .mobile-content{padding-bottom:24px}.mobile-shell .mobile-tabs{padding-bottom:calc(9px + env(safe-area-inset-bottom))}}
+@media print{.mobile-shell .mobile-tabs{display:none!important}}

@@ -1,0 +1,22 @@
+{% extends "base_billing.html" %}
+{% load static %}
+{% block title %}{{ bill.bill_no }} | Receipt{% endblock %}
+{% block billing_content %}
+<section class="receipt-page {% if shop.paper_size == '80MM' %}receipt-thermal{% else %}receipt-a4{% endif %}">
+  <div class="receipt-actions"><a class="btn btn-outline-secondary" href="{% url 'billing_my_bills' %}"><i class="bi bi-arrow-left me-1"></i>Back to bills</a><button class="btn btn-primary" onclick="window.print()" type="button"><i class="bi bi-printer me-1"></i>Print receipt</button><a class="btn btn-outline-secondary" href="{% url 'billing_home' %}">New sale</a></div>
+  <article class="invoice-paper">
+    <header class="invoice-header">{% if shop.logo %}<img class="invoice-logo" src="{{ shop.logo.url }}" alt="{{ shop.shop_name }}">{% endif %}<h1>{{ shop.shop_name }}</h1>{% if shop.address %}<p>{{ shop.address|linebreaksbr }}</p>{% endif %}{% if shop.phone %}<p>Phone: {{ shop.phone }}</p>{% endif %}{% if shop.gstin %}<p>GSTIN: {{ shop.gstin }}</p>{% endif %}<div class="invoice-kind">TAX INVOICE</div></header>
+    <div class="invoice-meta"><div><span>Bill number</span><strong>{{ bill.bill_no }}</strong></div><div><span>Date</span><strong>{{ bill.created_at|date:"d/m/Y H:i" }}</strong></div><div><span>Cashier</span><strong>{{ bill.staff.name }}</strong></div><div><span>Customer</span><strong>{{ bill.customer.name|default:"Walk-in customer" }}</strong></div>{% if bill.customer.phone %}<div><span>Phone</span><strong>{{ bill.customer.phone }}</strong></div>{% endif %}</div>
+    <table class="invoice-items"><thead><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Tax</th><th class="text-end">Amount</th></tr></thead><tbody>{% for item in bill.items.all %}<tr><td><strong>{{ item.name_snapshot }}</strong><small>{{ item.sku_snapshot }}</small></td><td>{{ item.qty }}</td><td>₹{{ item.unit_price }}</td><td>{{ item.tax_percent }}%<small>₹{{ item.tax_amount }}</small></td><td class="text-end">₹{{ item.line_total }}</td></tr>{% endfor %}</tbody></table>
+    <div class="invoice-totals"><div><span>Subtotal</span><strong>₹{{ bill.subtotal }}</strong></div><div><span>Discount</span><strong>−₹{{ bill.discount_amount }}</strong></div><div><span>GST {% if bill.tax_inclusive %}(included){% endif %}</span><strong>₹{{ bill.tax_amount }}</strong></div>{% if bill.round_off %}<div><span>Round off</span><strong>₹{{ bill.round_off }}</strong></div>{% endif %}<div class="invoice-grand"><span>Grand total</span><strong>₹{{ bill.grand_total }}</strong></div></div>
+    <section class="invoice-payments"><h2>Payments</h2>{% for payment in bill.payments.all %}<div><span>{{ payment.get_mode_display }}{% if payment.reference %} · {{ payment.reference }}{% endif %}</span><strong>₹{{ payment.amount }}</strong></div>{% endfor %}{% if bill.balance %}<div class="invoice-balance"><span>Balance due</span><strong>₹{{ bill.balance }}</strong></div>{% endif %}</section>
+    <div class="invoice-code"><svg id="bill-barcode"></svg><div id="bill-qr"></div><small>{{ bill.bill_no }}</small></div>
+    <footer class="invoice-footer">{{ shop.footer_note|default:"Thank you for shopping with us." }}</footer>
+  </article>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.12.1/dist/JsBarcode.all.min.js"></script><script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script><script>
+  const billCode = "{{ bill.bill_no|escapejs }}";
+  if (window.JsBarcode) JsBarcode("#bill-barcode", billCode, { format: "CODE128", displayValue: false, height: 44, margin: 0 });
+  if (window.QRCode) new QRCode(document.getElementById("bill-qr"), { text: billCode, width: 72, height: 72, correctLevel: QRCode.CorrectLevel.M });
+</script>
+{% endblock %}

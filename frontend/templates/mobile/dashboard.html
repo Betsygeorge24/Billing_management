@@ -1,0 +1,12 @@
+{% extends "base_mobile.html" %}
+{% block title %}Mobile admin | Thread & Till{% endblock %}
+{% block mobile_content %}
+<span class="eyebrow">SHOP OVERVIEW · {{ today|date:"j M Y"|upper }}</span>
+<h1 class="mobile-heading">Good day, {{ request.user.name }}</h1>
+<section class="mobile-metric"><span>Today's sales</span><strong>₹{{ today_sales|floatformat:2 }}</strong><small>{{ today_transaction_count }} bill{{ today_transaction_count|pluralize }} today</small></section>
+<div class="mobile-stat-grid"><article><span>This month</span><strong>₹{{ month_sales|floatformat:2 }}</strong></article><article><span>Low stock</span><strong>{{ low_stock_count }}</strong></article><article><span>Active staff</span><strong>{{ active_staff_count }}</strong></article></div>
+<section class="mobile-section"><div class="mobile-section-heading"><h2>Recent bills</h2><a href="{% url 'mobile_admin_bills' %}">See all</a></div>
+	{% for bill in recent_bills %}<a class="mobile-bill-card" href="{% url 'billing_receipt' bill.pk %}"><span class="mobile-bill-icon"><i class="bi bi-receipt"></i></span><span class="mobile-bill-main"><strong>{{ bill.bill_no }}</strong><small>{{ bill.customer.name|default:"Walk-in" }} · {{ bill.created_at|date:"d/m H:i" }}</small></span><span class="mobile-bill-total">₹{{ bill.grand_total|floatformat:2 }}<small>{{ bill.get_status_display }}</small></span></a>
+	{% empty %}<div class="mobile-empty">No bills have been recorded yet.</div>{% endfor %}
+</section>
+{% endblock %}

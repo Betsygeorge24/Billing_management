@@ -1,0 +1,21 @@
+{% extends "base_mobile.html" %}
+{% block title %}More | Mobile admin{% endblock %}
+{% block mobile_content %}
+<span class="eyebrow">WORKSPACE</span>
+<h1 class="mobile-heading">More</h1>
+<div class="mobile-more-list">
+  <a href="{% url 'mobile_admin_products' %}"><i class="bi bi-box-seam"></i><span><strong>Products & categories</strong><small>Catalog, variants, and stock</small></span><i class="bi bi-chevron-right"></i></a>
+  <a href="{% url 'mobile_admin_staff' %}"><i class="bi bi-people"></i><span><strong>Staff</strong><small>Accounts and permissions</small></span><i class="bi bi-chevron-right"></i></a>
+  <a href="{% url 'mobile_admin_suppliers' %}"><i class="bi bi-truck"></i><span><strong>Suppliers & purchases</strong><small>Receiving and supplier balances</small></span><i class="bi bi-chevron-right"></i></a>
+  <a href="{% url 'mobile_admin_customers' %}"><i class="bi bi-person-lines-fill"></i><span><strong>Customers</strong><small>Profiles, bills, and collections</small></span><i class="bi bi-chevron-right"></i></a>
+  <a href="{% url 'mobile_admin_bills' %}"><i class="bi bi-receipt"></i><span><strong>Bills & transactions</strong><small>Collect balances and manage bills</small></span><i class="bi bi-chevron-right"></i></a>
+  <a href="{% url 'mobile_admin_returns' %}"><i class="bi bi-arrow-return-left"></i><span><strong>Returns</strong><small>Refunds and restocking</small></span><i class="bi bi-chevron-right"></i></a>
+  <a href="{% url 'mobile_admin_ledger' %}"><i class="bi bi-journal-text"></i><span><strong>Ledger</strong><small>Debits, credits, and balances</small></span><i class="bi bi-chevron-right"></i></a>
+  <a href="{% url 'mobile_admin_reports' %}"><i class="bi bi-bar-chart"></i><span><strong>Reports</strong><small>Sales, stock, tax, returns, balances</small></span><i class="bi bi-chevron-right"></i></a>
+  <a href="{% url 'mobile_admin_expenses' %}"><i class="bi bi-wallet2"></i><span><strong>Expenses</strong><small>Record and review expenses</small></span><i class="bi bi-chevron-right"></i></a>
+  <a href="{% url 'mobile_admin_settings' %}"><i class="bi bi-gear"></i><span><strong>Shop settings</strong><small>Invoice and stock preferences</small></span><i class="bi bi-chevron-right"></i></a>
+  <a href="{% url 'mobile_admin_audit' %}"><i class="bi bi-shield-check"></i><span><strong>Audit log</strong><small>Sensitive activity history</small></span><i class="bi bi-chevron-right"></i></a>
+  <a href="{% url 'billing_home' %}"><i class="bi bi-bag-plus"></i><span><strong>New sale</strong><small>Open cashier checkout</small></span><i class="bi bi-chevron-right"></i></a>
+  <a href="{% url 'admin_dashboard' %}"><i class="bi bi-display"></i><span><strong>Desktop dashboard</strong><small>Switch to wide layout</small></span><i class="bi bi-chevron-right"></i></a>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base_admin.html" %}
+{% block page_title %}Supplier{% endblock %}
+{% block admin_content %}
+<div class="module-heading"><div><span class="eyebrow">PURCHASING</span><h2>{{ supplier.name }}</h2><p>{{ supplier.phone }} · GSTIN {{ supplier.gstin|default:"—" }}</p></div><a class="btn btn-outline-secondary btn-sm" href="{% url 'admin_supplier_edit' supplier.pk %}">Edit supplier</a></div>
+<div class="stat-grid module-stats"><article class="stat-card"><span>Outstanding balance</span><strong>₹{{ balance|floatformat:2 }}</strong></article><article class="stat-card"><span>Opening balance</span><strong>₹{{ supplier.opening_balance|floatformat:2 }}</strong></article></div>
+<div class="detail-grid">
+	<section class="admin-form detail-form">
+		<h3>Record payment</h3>
+		{% if form.non_field_errors %}<div class="alert alert-danger" role="alert">{{ form.non_field_errors }}</div>{% endif %}
+		{% if balance > 0 %}
+		<form method="post">{% csrf_token %}{% for field in form %}<div class="admin-field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.name == "amount" %}<small>Maximum outstanding: ₹{{ balance|floatformat:2 }}</small>{% endif %}{% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}</div>{% endfor %}<button class="btn btn-primary" type="submit">Record payment</button></form>
+		{% else %}
+		<p class="text-secondary small mb-0">No outstanding balance is due. Record a purchase before making a supplier payment.</p>
+		{% endif %}
+	</section>
+	<section><h3 class="section-title">Purchase history</h3><div class="module-table-wrap"><table class="table mb-0"><thead><tr><th>Invoice</th><th>Date</th><th>Total</th><th>Paid</th></tr></thead><tbody>{% for purchase in purchases %}<tr><td>{{ purchase.invoice_no }}</td><td>{{ purchase.date }}</td><td>₹{{ purchase.total }}</td><td>₹{{ purchase.paid_amount }}</td></tr>{% empty %}<tr><td colspan="4" class="module-empty">No purchases recorded.</td></tr>{% endfor %}</tbody></table></div></section>
+</div>
+{% endblock %}

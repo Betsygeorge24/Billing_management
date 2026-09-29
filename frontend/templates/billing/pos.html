@@ -1,0 +1,41 @@
+{% extends "base_billing.html" %}
+{% load static %}
+{% block title %}Billing | Thread & Till{% endblock %}
+{% block billing_content %}
+<div class="pos-workspace" id="pos-app"
+		 data-search-url="{% url 'billing_product_search' %}"
+		 data-customer-url="{% url 'billing_customer_create' %}"
+		 data-held-url="{% url 'billing_held_bills' %}"
+		 data-checkout-url="{% url 'billing_checkout' %}"
+		 data-can-discount="{{ can_discount|yesno:'true,false' }}"
+		 data-max-discount="{{ max_discount_percent|default:'0' }}"
+		 data-is-admin="{{ is_admin|yesno:'true,false' }}">
+	{% csrf_token %}
+	<div class="pos-heading"><div><span class="eyebrow">CHECKOUT DESK / {{ request.user.get_role_display|upper }}</span><h1>New sale</h1></div><button class="btn btn-outline-secondary" id="held-open" type="button" data-bs-toggle="modal" data-bs-target="#held-modal"><i class="bi bi-pause-circle me-1"></i> Held bills <span class="held-count" id="held-count">0</span></button></div>
+	<div class="pos-toolbar">
+		<div class="pos-search"><i class="bi bi-search"></i><input id="product-search" type="search" placeholder="Scan barcode or search product / SKU" autocomplete="off" aria-label="Search products"><kbd>F2</kbd></div>
+		<select class="form-select category-select" id="category-filter" aria-label="Filter category"><option value="">All categories</option>{% for category in categories %}<option value="{{ category.pk }}">{{ category.name }}</option>{% endfor %}</select>
+		<div class="tax-toggle"><span>Tax included</span><label class="switch"><input id="tax-inclusive" type="checkbox"><span class="switch-track"></span></label></div>
+	</div>
+	<div class="pos-columns">
+		<section class="catalog-panel" aria-label="Products">
+			<div class="section-heading"><h2>Products</h2><span id="product-count">Search or scan to add</span></div>
+			<div class="product-results" id="product-results"><div class="catalog-empty"><i class="bi bi-upc-scan"></i><strong>Ready to scan</strong><span>Type a product, SKU, or barcode to begin.</span></div></div>
+		</section>
+		<section class="cart-panel" aria-label="Current bill">
+			<div class="cart-title"><div><span class="eyebrow">CURRENT TRANSACTION</span><h2>Cart <span id="cart-count">0</span></h2></div><button class="icon-action" type="button" id="clear-cart" title="Clear cart" aria-label="Clear cart"><i class="bi bi-trash3"></i></button></div>
+			<div class="customer-row"><div class="customer-icon"><i class="bi bi-person"></i></div><select class="form-select" id="customer-select"><option value="">Walk-in customer</option>{% for customer in customers %}<option value="{{ customer.pk }}">{{ customer.name }}{% if customer.phone %} · {{ customer.phone }}{% endif %}</option>{% endfor %}</select><button class="icon-action" type="button" title="Add customer" aria-label="Add customer" data-bs-toggle="modal" data-bs-target="#customer-modal"><i class="bi bi-person-plus"></i></button></div>
+			<div class="cart-lines" id="cart-lines"><div class="cart-empty"><i class="bi bi-basket"></i><span>Your cart is empty</span><small>Scan a barcode or choose a product.</small></div></div>
+			<div class="cart-discount"><div class="discount-label"><label for="bill-discount">Bill discount</label><small id="discount-limit-help" aria-live="polite">{% if can_discount and not is_admin %}Discount limit {{ max_discount_percent }}%{% elif not can_discount %}Discounts are disabled{% endif %}</small></div><div class="input-group"><select class="form-select" id="discount-type" {% if not can_discount %}disabled{% endif %}><option value="AMOUNT">₹</option><option value="PERCENT">%</option></select><input class="form-control" id="bill-discount" type="number" min="0" step="0.01" value="0" {% if not can_discount %}disabled{% endif %} aria-label="Bill discount"></div></div>
+			<div class="totals-box"><div><span>Subtotal</span><strong id="subtotal">₹0.00</strong></div><div><span>Discount</span><strong id="discount-total">−₹0.00</strong></div><div><span>GST</span><strong id="tax-total">₹0.00</strong></div><div class="round-row"><label for="round-total">Round to nearest rupee</label><input class="form-check-input" type="checkbox" id="round-total"></div><div class="grand-total"><span>Total due</span><strong id="grand-total">₹0.00</strong></div></div>
+			<div class="cart-actions"><button class="btn btn-outline-secondary" id="hold-bill" type="button" title="Hold bill (F8)"><i class="bi bi-pause-fill"></i><span>Hold</span><kbd>F8</kbd></button><button class="btn btn-primary pay-button" id="pay-open" type="button" data-bs-toggle="modal" data-bs-target="#payment-modal" disabled><i class="bi bi-credit-card-2-front me-2"></i>Charge <span id="charge-label">₹0.00</span><kbd>F4</kbd></button></div>
+		</section>
+	</div>
+</div>
+
+<div class="modal fade" id="payment-modal" tabindex="-1" aria-labelledby="payment-title" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><div><span class="eyebrow">CHECKOUT</span><h2 class="modal-title" id="payment-title">Take payment</h2></div><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body"><div class="payment-due"><span>Amount due</span><strong id="payment-due">₹0.00</strong></div><div id="payment-rows"></div><button type="button" class="btn btn-sm btn-outline-secondary mt-2" id="add-payment"><i class="bi bi-plus-lg me-1"></i>Split payment</button><div class="change-preview" id="change-preview">Change due <strong>₹0.00</strong></div><div class="text-danger small mt-2" id="payment-error" role="alert"></div></div><div class="modal-footer"><button class="btn btn-outline-secondary" type="button" data-bs-dismiss="modal">Back to cart</button><button class="btn btn-primary" id="checkout-submit" type="button"><i class="bi bi-check2 me-1"></i>Complete sale</button></div></div></div></div>
+<div class="modal fade" id="customer-modal" tabindex="-1" aria-labelledby="customer-title" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-sm"><div class="modal-content"><div class="modal-header"><h2 class="modal-title fs-5" id="customer-title">Add customer</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><form id="customer-form"><div class="modal-body"><label class="form-label" for="customer-name">Name</label><input class="form-control mb-3" id="customer-name" maxlength="180" required><label class="form-label" for="customer-phone">Phone</label><input class="form-control" id="customer-phone" maxlength="24" inputmode="tel"><div class="text-danger small mt-2" id="customer-error"></div></div><div class="modal-footer"><button class="btn btn-primary" type="submit">Save customer</button></div></form></div></div></div>
+<div class="modal fade" id="held-modal" tabindex="-1" aria-labelledby="held-title" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h2 class="modal-title fs-5" id="held-title">Held bills</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body p-0" id="held-list"><div class="held-empty">Loading held bills…</div></div></div></div></div>
+<div class="pos-live" id="pos-live" aria-live="polite"></div>
+<script src="{% static 'js/pos.js' %}" defer></script>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base_admin.html" %}
+{% block page_title %}Dashboard{% endblock %}
+{% block admin_content %}
+<div class="welcome-strip">
+	<div>
+		<span class="eyebrow">{{ today|date:"l, j F Y"|upper }}</span>
+		<h2>Your shop at a glance</h2>
+		<p>This month's sales: <strong>₹{{ month_sales|floatformat:2 }}</strong></p>
+	</div>
+	<a class="btn btn-primary" href="{% url 'billing_home' %}"><i class="bi bi-plus-lg me-2"></i>Open billing</a>
+</div>
+<div class="stat-grid">
+	<article class="stat-card"><span>Today's sales</span><strong>₹{{ today_sales|floatformat:2 }}</strong><small>Completed bills, excluding held and void</small></article>
+	<article class="stat-card"><span>Transactions</span><strong>{{ today_transaction_count }}</strong><small>Reportable bills today</small></article>
+	<article class="stat-card"><span>Low stock</span><strong>{{ low_stock_count }}</strong><small>Products at or below minimum stock</small></article>
+	<article class="stat-card"><span>Active staff</span><strong>{{ active_staff_count }}</strong><small>Enabled cashier accounts</small></article>
+</div>
+<section class="mt-4 dashboard-desktop-bills">
+	<div class="d-flex align-items-center justify-content-between mb-2"><h2 class="h6 fw-bold mb-0">Recent bills</h2><a class="small text-decoration-none" href="{% url 'billing_my_bills' %}">View bill history <i class="bi bi-arrow-right"></i></a></div>
+	<div class="table-responsive bg-white border rounded-2">
+		<table class="table table-hover align-middle mb-0">
+			<thead><tr><th>Bill</th><th>Time</th><th>Customer</th><th>Cashier</th><th class="text-end">Total</th><th>Status</th><th></th></tr></thead>
+			<tbody>
+				{% for bill in recent_bills %}
+				<tr><td class="fw-semibold">{{ bill.bill_no }}</td><td>{{ bill.created_at|date:"d/m/Y H:i" }}</td><td>{{ bill.customer.name|default:"Walk-in" }}</td><td>{{ bill.staff.name }}</td><td class="text-end">₹{{ bill.grand_total|floatformat:2 }}</td><td>{{ bill.get_status_display }}</td><td class="text-end"><a class="btn btn-sm btn-outline-secondary" href="{% url 'billing_receipt' bill.pk %}" aria-label="Open receipt for {{ bill.bill_no }}"><i class="bi bi-receipt"></i></a></td></tr>
+				{% empty %}
+				<tr><td colspan="7" class="text-center text-secondary py-5"><i class="bi bi-receipt d-block fs-4 mb-2"></i>No bills have been recorded yet.</td></tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</section>
+<section class="mt-4 dashboard-mobile-bills">
+	<div class="d-flex align-items-center justify-content-between mb-2"><h2 class="h6 fw-bold mb-0">Recent bills</h2><a class="small text-decoration-none" href="{% url 'billing_my_bills' %}">View all <i class="bi bi-arrow-right"></i></a></div>
+	<div class="dashboard-mobile-list">
+		{% for bill in recent_bills %}
+		<a class="dashboard-mobile-bill" href="{% url 'billing_receipt' bill.pk %}"><span class="dashboard-mobile-bill-icon"><i class="bi bi-receipt"></i></span><span class="dashboard-mobile-bill-main"><strong>{{ bill.bill_no }}</strong><small>{{ bill.customer.name|default:"Walk-in" }} · {{ bill.created_at|date:"d/m H:i" }}</small></span><span class="dashboard-mobile-bill-total">₹{{ bill.grand_total|floatformat:2 }}<small>{{ bill.get_status_display }}</small></span></a>
+		{% empty %}<div class="dashboard-mobile-empty">No bills have been recorded yet.</div>{% endfor %}
+	</div>
+</section>
+{% endblock %}

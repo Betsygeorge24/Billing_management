@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}<link href="{% static 'css/pos.css' %}" rel="stylesheet"><link href="{% static 'css/pos-discount.css' %}" rel="stylesheet">{% endblock %}
+{% block body_class %}billing-shell{% endblock %}
+{% block content %}<header class="billing-topbar"><a class="brand" href="{% url 'billing_home' %}"><span class="brand-mark"><i class="bi bi-bag-check-fill"></i></span><span>Thread & Till<small>Point of sale</small></span></a><div class="d-flex align-items-center gap-3"><span>{{ request.user.name }}</span><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn btn-sm btn-outline-secondary" type="submit">Sign out</button></form></div></header><main class="billing-content">{% block billing_content %}{% endblock %}</main>{% endblock %}

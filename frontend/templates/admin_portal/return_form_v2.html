@@ -1,0 +1,14 @@
+{% extends "base_admin.html" %}
+{% block page_title %}Process return{% endblock %}
+{% block admin_content %}
+<div class="module-heading"><div><span class="eyebrow">AFTER-SALES</span><h2>Process a return</h2><p>Select the quantities to return. The server checks the remaining quantity again on submission.</p></div></div>
+<form method="get" class="module-search"><input class="form-control" name="bill_no" value="{{ form.bill_no.value|default:'' }}" placeholder="Enter bill number" aria-label="Bill number"><button class="btn btn-outline-secondary" type="submit">Find bill</button></form>
+{% if bill %}
+<section class="return-bill-summary"><strong>{{ bill.bill_no }}</strong><span>{{ bill.customer.name|default:"Walk-in" }}</span><span>{{ bill.created_at|date:"d/m/Y H:i" }}</span><span>₹{{ bill.grand_total }}</span><span>{{ bill.get_status_display }}</span></section>
+<form method="post" class="admin-form return-form">{% csrf_token %}<input type="hidden" name="bill_no" value="{{ bill.bill_no }}">
+  {% for field in form %}{% if field.name != 'bill_no' %}<div class="admin-field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}</div>{% endif %}{% endfor %}
+  <div class="return-items">{% for line in item_forms %}<article class="return-item"><div class="return-item-name"><strong>{{ line.item.name_snapshot }}</strong><small>Sold {{ line.item.qty }} · returned {{ line.returned_qty }} · remaining {{ line.remaining_qty }}</small></div><input type="hidden" name="item-{{ line.item.pk }}-bill_item_id" value="{{ line.item.pk }}"><label>Return qty<input class="form-control" type="number" name="item-{{ line.item.pk }}-qty" min="0" max="{{ line.remaining_qty }}" step="0.001" {% if line.remaining_qty <= 0 %}disabled{% endif %}></label><label class="return-restock"><input class="form-check-input" type="checkbox" name="item-{{ line.item.pk }}-restock" checked {% if line.remaining_qty <= 0 %}disabled{% endif %}> Restock</label></article>{% endfor %}</div>
+  <button class="btn btn-primary" type="submit">Process return</button>
+</form>
+{% endif %}
+{% endblock %}

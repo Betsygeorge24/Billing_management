@@ -1,0 +1,6 @@
+.cart-discount{align-items:flex-start}
+.discount-label{flex:1;min-width:0}
+.discount-label label{display:block;color:var(--pos-muted);font-size:12px}
+.discount-label small{display:block!important;margin-top:4px;color:var(--pos-muted);font-size:10px;line-height:1.35}
+.discount-label small.text-danger{color:#b42318!important}
+.cart-discount .input-group{flex:0 0 130px}

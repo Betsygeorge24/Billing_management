@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}{{ block.super }}<link href="{% static 'css/admin-responsive.css' %}" rel="stylesheet"><link href="{% static 'css/admin-modules.css' %}" rel="stylesheet">{% endblock %}
+{% block body_class %}admin-shell{% endblock %}
+{% block content %}
+<div class="admin-layout">
+  <aside class="sidebar">
+    <a class="brand" href="{% url 'admin_dashboard' %}"><span class="brand-mark"><i class="bi bi-bag-check-fill"></i></span><span>Thread & Till<small>Retail operations</small></span></a>
+    <nav class="nav flex-column mt-4">
+      <a class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}" href="{% url 'admin_dashboard' %}"><i class="bi bi-grid-1x2"></i> Dashboard</a>
+      <a class="nav-link {% if request.resolver_match.url_name|slice:':7' == 'admin_p' and request.resolver_match.url_name != 'admin_purchases' and request.resolver_match.url_name != 'admin_purchase_create' %}active{% endif %}" href="{% url 'admin_products' %}"><i class="bi bi-box-seam"></i> Products</a>
+      <a class="nav-link {% if request.resolver_match.url_name|slice:':10' == 'admin_staf' %}active{% endif %}" href="{% url 'admin_staff' %}"><i class="bi bi-people"></i> Staff</a>
+      <a class="nav-link {% if request.resolver_match.url_name|slice:':14' == 'admin_supplier' or request.resolver_match.url_name|slice:':14' == 'admin_purchase' %}active{% endif %}" href="{% url 'admin_suppliers' %}"><i class="bi bi-truck"></i> Suppliers</a>
+      <a class="nav-link {% if request.resolver_match.url_name|slice:':14' == 'admin_customer' %}active{% endif %}" href="{% url 'admin_customers' %}"><i class="bi bi-person-lines-fill"></i> Customers</a>
+      <a class="nav-link {% if request.resolver_match.url_name|slice:':10' == 'admin_bill' %}active{% endif %}" href="{% url 'admin_bills' %}"><i class="bi bi-receipt"></i> Bills</a>
+      <a class="nav-link {% if request.resolver_match.url_name|slice:':12' == 'admin_return' %}active{% endif %}" href="{% url 'admin_returns' %}"><i class="bi bi-arrow-return-left"></i> Returns</a>
+      <a class="nav-link {% if request.resolver_match.url_name == 'admin_ledger' %}active{% endif %}" href="{% url 'admin_ledger' %}"><i class="bi bi-journal-text"></i> Ledger</a>
+      <a class="nav-link {% if request.resolver_match.url_name == 'admin_reports' %}active{% endif %}" href="{% url 'admin_reports' %}"><i class="bi bi-bar-chart"></i> Reports</a>
+      <a class="nav-link {% if request.resolver_match.url_name == 'admin_expenses' %}active{% endif %}" href="{% url 'admin_expenses' %}"><i class="bi bi-wallet2"></i> Expenses</a>
+      <a class="nav-link {% if request.resolver_match.url_name == 'admin_settings' %}active{% endif %}" href="{% url 'admin_settings' %}"><i class="bi bi-gear"></i> Settings</a>
+      <a class="nav-link {% if request.resolver_match.url_name == 'admin_audit' %}active{% endif %}" href="{% url 'admin_audit' %}"><i class="bi bi-shield-check"></i> Audit log</a>
+      <a class="nav-link" href="{% url 'billing_home' %}"><i class="bi bi-bag-plus"></i> Open POS</a>
+    </nav>
+    <div class="sidebar-foot">Phase 1 foundation</div>
+  </aside>
+  <main class="admin-main">
+    <header class="topbar"><div><span class="eyebrow">RETAIL CONTROL</span><h1>{% block page_title %}Dashboard{% endblock %}</h1></div><div class="top-actions"><a class="btn btn-sm btn-outline-secondary" href="{% url 'mobile_admin_home' %}"><i class="bi bi-phone"></i> Mobile view</a><span class="user-chip"><i class="bi bi-person-circle"></i> {{ request.user.name }}</span><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn btn-sm btn-link text-secondary" type="submit" aria-label="Sign out"><i class="bi bi-box-arrow-right"></i></button></form></div></header>
+    <section class="page-content">{% block admin_content %}{% endblock %}</section>
+  </main>
+</div>
+{% endblock %}

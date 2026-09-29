@@ -1,0 +1,17 @@
+# Python environments and local tooling
+.venv/
+.python-runtime/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local data and runtime output
+*.sqlite3
+media/
+staticfiles/
+*.log
+
+# Secrets and operating-system files
+.env
+.DS_Store
+Thumbs.db

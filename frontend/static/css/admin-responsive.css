@@ -1,0 +1,32 @@
+.dashboard-mobile-bills{display:none}
+@media(max-width:800px){
+  .admin-shell .sidebar{display:none}
+  .admin-shell .admin-layout{display:block}
+  .admin-shell .admin-main{grid-column:auto;width:100%;min-width:0}
+  .admin-shell .topbar{position:sticky;top:0;z-index:20}
+  .admin-shell .page-content{width:100%;max-width:none;padding:20px 16px calc(28px + env(safe-area-inset-bottom))}
+  .admin-shell .welcome-strip{align-items:flex-start;flex-direction:column;gap:12px;padding-top:0}
+  .admin-shell .welcome-strip h2{font-size:21px}
+  .admin-shell .welcome-strip p{font-size:12px}
+  .admin-shell .stat-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .admin-shell .stat-card{padding:14px}
+  .admin-shell .stat-card strong{font-size:22px}
+  .admin-shell .stat-card small{font-size:10px;line-height:1.4}
+  .dashboard-desktop-bills{display:none}
+  .dashboard-mobile-bills{display:block}
+  .dashboard-mobile-list{background:#fff;border:1px solid var(--line);border-radius:7px;padding:0 12px}
+  .dashboard-mobile-bill{min-height:62px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #edf0ef;color:var(--ink);text-decoration:none}
+  .dashboard-mobile-bill:last-child{border-bottom:0}
+  .dashboard-mobile-bill-icon{width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;border-radius:6px;background:#eaf3ef;color:var(--teal)}
+  .dashboard-mobile-bill-main{flex:1;min-width:0}
+  .dashboard-mobile-bill-main strong,.dashboard-mobile-bill-main small,.dashboard-mobile-bill-total small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dashboard-mobile-bill-main strong{font-size:11px}
+  .dashboard-mobile-bill-main small,.dashboard-mobile-bill-total small{margin-top:4px;color:var(--muted);font-size:9px}
+  .dashboard-mobile-bill-total{text-align:right;white-space:nowrap;font-size:11px;font-weight:700}
+  .dashboard-mobile-empty{padding:24px 8px;text-align:center;color:var(--muted);font-size:12px}
+}
+@media(max-width:380px){
+  .admin-shell .page-content{padding-right:12px;padding-left:12px}
+  .admin-shell .stat-card{padding:11px}
+  .admin-shell .topbar{padding-right:12px;padding-left:12px}
+}

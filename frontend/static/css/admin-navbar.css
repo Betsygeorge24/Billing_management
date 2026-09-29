@@ -1,0 +1,12 @@
+.admin-navbar{height:50px;display:flex;align-items:stretch;gap:8px;padding:0 34px;background:#fff;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.admin-navbar::-webkit-scrollbar{display:none}
+.admin-navbar a{position:relative;display:inline-flex;align-items:center;gap:8px;flex:0 0 auto;padding:0 13px;color:#687885;text-decoration:none;font-size:12px;font-weight:600;white-space:nowrap}
+.admin-navbar a:hover{color:var(--teal);background:#f7faf8}
+.admin-navbar a.active{color:var(--teal)}
+.admin-navbar a.active:after{position:absolute;right:12px;bottom:0;left:12px;height:2px;background:var(--teal);content:""}
+.admin-shell .sidebar{top:50px}
+.mobile-shell .admin-navbar{max-width:430px;margin:22px auto -22px;border:1px solid #dfe4e2;border-bottom:0;border-radius:22px 22px 0 0}
+.mobile-shell .phone-frame{min-height:min(900px,calc(100vh - 94px))}
+@media(max-width:800px){.admin-navbar{padding:0 17px;gap:2px}.admin-navbar a{min-height:48px;padding:0 12px}}
+@media(max-width:800px){.mobile-shell .admin-navbar{width:100%;margin:0 auto;border-right:0;border-left:0;border-radius:0}.mobile-shell .phone-frame{min-height:calc(100vh - 50px)}}
+@media print{.admin-navbar{display:none!important}.admin-shell .sidebar{top:0}}

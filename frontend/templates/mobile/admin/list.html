@@ -1,0 +1,12 @@
+{% extends "base_mobile.html" %}
+{% block title %}{{ title }} | Mobile admin{% endblock %}
+{% block mobile_content %}
+<span class="eyebrow">{{ eyebrow }}</span>
+<h1 class="mobile-heading">{{ title }}</h1>
+{% if description %}<p class="mobile-subtitle">{{ description }}</p>{% endif %}
+<div class="mobile-admin-actions">{% for label, route_name in actions %}<a href="{% url route_name %}" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> {{ label }}</a>{% endfor %}</div>
+<form method="get" class="mobile-admin-search"><input class="form-control" name="q" value="{{ request.GET.q }}" placeholder="Search {{ title|lower }}" aria-label="Search {{ title }}"><button class="btn btn-outline-secondary" type="submit" aria-label="Search"><i class="bi bi-search"></i></button>
+{% if bill_statuses %}<select class="form-select" name="status" aria-label="Bill status"><option value="">All statuses</option>{% for value,label in bill_statuses %}<option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><input class="form-control" type="date" name="start" value="{{ request.GET.start }}" aria-label="From date"><input class="form-control" type="date" name="end" value="{{ request.GET.end }}" aria-label="To date"><button class="btn btn-outline-secondary" type="submit">Filter</button>{% endif %}</form>
+<div class="mobile-admin-cards">{% for row in rows %}<article class="mobile-admin-card"><div class="mobile-admin-card-copy">{% for label,cell in row.labelled_cells %}{% if forloop.first %}<strong>{{ cell }}</strong>{% else %}<span>{{ label }}: {{ cell }}</span>{% endif %}{% endfor %}</div>{% if row.url %}<a class="btn btn-sm btn-outline-secondary" href="{{ row.url }}">{{ row.action|default:"Open" }} <i class="bi bi-chevron-right"></i></a>{% endif %}</article>{% empty %}<div class="mobile-empty">No records found.</div>{% endfor %}</div>
+{% if page_obj.has_other_pages %}<nav class="mobile-pagination" aria-label="Page navigation">{% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}"><i class="bi bi-arrow-left"></i> Previous</a>{% else %}<span></span>{% endif %}<span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>{% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}">Next <i class="bi bi-arrow-right"></i></a>{% else %}<span></span>{% endif %}</nav>{% endif %}
+{% endblock %}

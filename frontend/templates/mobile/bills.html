@@ -1,0 +1,17 @@
+{% extends "base_mobile.html" %}
+{% block title %}Bills | Mobile admin{% endblock %}
+{% block mobile_content %}
+<span class="eyebrow">TRANSACTION HISTORY</span>
+<h1 class="mobile-heading">Bills</h1>
+<p class="mobile-subtitle">Recent sales and payment status.</p>
+<div class="mobile-bill-list">
+  {% for bill in bills %}
+  <article class="mobile-bill-record">
+    <div class="mobile-bill-record-top"><div><strong>{{ bill.bill_no }}</strong><small>{{ bill.created_at|date:"d/m/Y · H:i" }}</small></div><span class="mobile-status">{{ bill.get_status_display }}</span></div>
+    <div class="mobile-bill-record-meta"><span><i class="bi bi-person"></i> {{ bill.customer.name|default:"Walk-in" }}</span><span><i class="bi bi-person-badge"></i> {{ bill.staff.name }}</span></div>
+    <div class="mobile-bill-record-bottom"><div><strong>₹{{ bill.grand_total|floatformat:2 }}</strong>{% if bill.balance %}<small class="balance-label">Due ₹{{ bill.balance|floatformat:2 }}</small>{% else %}<small>Paid ₹{{ bill.paid_amount|floatformat:2 }}</small>{% endif %}</div><div class="mobile-payment-tags">{% for payment in bill.payments.all %}<span>{{ payment.get_mode_display }}</span>{% empty %}<span>Unpaid</span>{% endfor %}</div><a class="btn btn-sm btn-outline-secondary" href="{% url 'billing_receipt' bill.pk %}"><i class="bi bi-printer"></i><span>Receipt</span></a></div>
+  </article>
+  {% empty %}<div class="mobile-empty">No bills have been recorded yet.</div>{% endfor %}
+</div>
+{% if page_obj.has_other_pages %}<nav class="mobile-pagination" aria-label="Bill pages">{% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}"><i class="bi bi-arrow-left"></i> Newer</a>{% else %}<span></span>{% endif %}<span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>{% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">Older <i class="bi bi-arrow-right"></i></a>{% else %}<span></span>{% endif %}</nav>{% endif %}
+{% endblock %}

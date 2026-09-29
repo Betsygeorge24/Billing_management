@@ -1,0 +1,11 @@
+{% extends "base_billing.html" %}
+{% block title %}My bills | Thread & Till{% endblock %}
+{% block billing_content %}
+<section class="bill-history">
+  <div class="history-heading"><div><span class="eyebrow">TRANSACTION HISTORY</span><h1>{% if request.user.is_admin %}All bills{% else %}My bills{% endif %}</h1><p>Recent completed sales and their payment status.</p></div><a class="btn btn-primary" href="{% url 'billing_home' %}"><i class="bi bi-plus-lg me-1"></i>New sale</a></div>
+  <div class="history-table-wrap"><table class="table history-table"><thead><tr><th>Bill</th><th>Date & time</th><th>Customer</th><th>Payment</th><th class="text-end">Total</th><th></th></tr></thead><tbody>
+  {% for bill in bills %}<tr><td><strong>{{ bill.bill_no }}</strong><small>{{ bill.get_status_display }}</small></td><td>{{ bill.created_at|date:"d/m/Y H:i" }}</td><td>{{ bill.customer.name|default:"Walk-in" }}</td><td>{% for payment in bill.payments.all %}<span class="payment-chip">{{ payment.get_mode_display }}</span>{% endfor %}{% if bill.balance %}<small class="balance-label">Due ₹{{ bill.balance }}</small>{% endif %}</td><td class="text-end fw-bold">₹{{ bill.grand_total }}</td><td class="text-end"><a class="btn btn-sm btn-outline-secondary" href="{% url 'billing_receipt' bill.pk %}"><i class="bi bi-printer me-1"></i>Receipt</a></td></tr>
+  {% empty %}<tr><td colspan="6"><div class="history-empty"><i class="bi bi-receipt"></i><strong>No bills yet</strong><span>Completed sales will appear here.</span></div></td></tr>{% endfor %}
+  </tbody></table></div>
+</section>
+{% endblock %}
